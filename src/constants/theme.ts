@@ -7,6 +7,8 @@ export const Colors = {
     textTertiary: '#A1ABA7',
     primary: '#176B52',
     onPrimary: '#FFFFFF',
+    onPrimarySecondary: 'rgba(255, 255, 255, 0.75)',
+    onPrimaryTint: 'rgba(255, 255, 255, 0.15)',
     primarySoft: '#E5F2EC',
     success: '#2D9D72',
     surfaceInverse: '#18332C',
@@ -16,6 +18,7 @@ export const Colors = {
     onAccent: '#18332C',
     background: '#FAFBF9',
     surface: '#FFFFFF',
+    surfaceMuted: '#EEF2EF',
     border: '#E4E9E6',
   },
   dark: {
@@ -24,6 +27,8 @@ export const Colors = {
     textTertiary: '#6B7A75',
     primary: '#4CBF95',
     onPrimary: '#0B1F18',
+    onPrimarySecondary: 'rgba(11, 31, 24, 0.7)',
+    onPrimaryTint: 'rgba(11, 31, 24, 0.12)',
     primarySoft: '#1C3A30',
     success: '#4CC795',
     surfaceInverse: '#1F3A31',
@@ -33,6 +38,7 @@ export const Colors = {
     onAccent: '#18332C',
     background: '#0E1412',
     surface: '#18201D',
+    surfaceMuted: '#202A26',
     border: '#2A3531',
   },
 } as const;
@@ -79,6 +85,11 @@ export const Radius = {
   md: 16,
   lg: 22,
   full: 999,
+} as const;
+
+export const Shadow = {
+  sm: '0 1px 3px rgba(24, 51, 44, 0.12)',
+  md: '0 8px 24px rgba(24, 51, 44, 0.14)',
 } as const;
 
 export const IconSize = {

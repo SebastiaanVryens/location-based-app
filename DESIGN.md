@@ -18,7 +18,7 @@ Use with `<ThemedText type="...">`.
 | `body`      | 13, Regular              | **normal sentences and paragraphs**                           | venue description, onboarding explanations                                                              |
 | `label`     | 12, Bold                 | **short emphasized words**, often clickable                   | category tabs (Popular / Coffee), "Open", "Nearby" chip, settings row titles, small buttons ("Sign in") |
 | `caption`   | 12, Regular              | **a supporting line under or next to something**              | "Our most-loved picks", "· 10–15 min", "Places delivering to your spot"                                 |
-| `small`     | 11, Regular              | **least important details**                                   | product descriptions, row values ("Order updates", "English"), "Spotly · Version 1.0"                   |
+| `small`     | 11, Regular              | **least important details**                                   | product descriptions, row values ("Order updates", "English"), "Version 1.0"                            |
 | `overline`  | 10, ExtraBold, uppercase | **a small kicker label above a title**                        | "YOUR ACCOUNT", "GOOD MORNING", "DELIVERING TO", "REQUIRED"                                             |
 
 ### Exceptions with `weight`
@@ -53,10 +53,12 @@ Colors come in **pairs**: a **background** and the text color meant to go **on**
 | ---------------- | ---------------------------------------------------------- | ----------------------------------------------------------- |
 | `background`     | **screen background** (off-white / near-black)             | behind everything on Profile and Orders                     |
 | `surface`        | **things that sit on the background**: cards, rows, sheets | settings rows, the sheet over the venue photo, the tab bar  |
+| `surfaceMuted`   | **quiet, filled areas** that shouldn't stand out           | price summary, List/Map switch track, "Delivered" chip      |
 | `primary`        | **main actions and the brand accent**                      | "View cart" / "Continue" buttons, active tab, tab underline |
 | `primarySoft`    | **light green tint** for small highlighted elements        | icon tiles in rows, "Nearby" chip, +/− buttons              |
 | `surfaceInverse` | **dark, emphasized cards**                                 | "Welcome / Sign in" card, the order-in-progress card        |
 | `accentCream`    | **warm accent**                                            | the avatar circle                                           |
+| `onPrimaryTint`  | **a faint tile on top of `primary`**                       | the icon tile in the "Scan QR code" card                    |
 
 ### Text and icons
 
@@ -66,6 +68,7 @@ Colors come in **pairs**: a **background** and the text color meant to go **on**
 | `textSecondary`      | `background`, `surface`                | **supporting text**: descriptions, captions, inactive tabs                             |
 | `textTertiary`       | `background`, `surface`                | **least important**: version text, input placeholders, disabled items                  |
 | `onPrimary`          | `primary`                              | text/icons **on** green buttons ("View cart")                                          |
+| `onPrimarySecondary` | `primary`                              | secondary text on green cards ("Order straight to your table or seat")                 |
 | `primary`            | `background`, `surface`, `primarySoft` | **green text or icons**: overlines, links, the "Nearby" chip text, icons in icon tiles |
 | `onInverse`          | `surfaceInverse`                       | main text on dark cards ("Welcome")                                                    |
 | `onInverseSecondary` | `surfaceInverse`                       | secondary text on dark cards ("Sign in to save…")                                      |
@@ -85,3 +88,12 @@ The pairs protect contrast, especially in dark mode. Putting `text` on `primary`
 ### Not in the theme yet
 
 A red **`danger` / `error`** color for validation errors ("Please enter an email") and destructive actions. The current designs don't show one, so add it when the first screen needs it, both in `light` and `dark`.
+
+## Shadows
+
+Use with the `boxShadow` style, e.g. `boxShadow: Shadow.md`.
+
+| Shadow | Role                                     | Examples                                             |
+| ------ | ---------------------------------------- | ---------------------------------------------------- |
+| `sm`   | **small raised elements**                | the selected List/Map segment, map pins and labels   |
+| `md`   | **cards that float above other content** | the "Scan QR code" card, the venue card over the map |

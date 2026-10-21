@@ -1,12 +1,13 @@
 import { StyleSheet, View } from 'react-native';
 
+import { Card } from '@/components/card';
 import { SettingsTile, type SettingsTileProps } from '@/components/settings-tile';
 import { ThemedText } from '@/components/themed-text';
-import { Radius, Spacing } from '@/constants/theme';
+import { Spacing } from '@/constants/theme';
 
 type Props = {
   title: string;
-  tiles: SettingsTileProps[];
+  tiles: Omit<SettingsTileProps, 'showDivider'>[];
 };
 
 export function SettingsTileSection({ title, tiles }: Props) {
@@ -15,16 +16,11 @@ export function SettingsTileSection({ title, tiles }: Props) {
       <ThemedText type="section" style={styles.title}>
         {title}
       </ThemedText>
-      <View style={styles.tilesWrapper}>
+      <Card>
         {tiles.map((tile, i) => (
-          <SettingsTile
-            key={tile.name}
-            name={tile.name}
-            icon={tile.icon}
-            showDivider={i < tiles.length - 1}
-          />
+          <SettingsTile key={tile.name} {...tile} showDivider={i < tiles.length - 1} />
         ))}
-      </View>
+      </Card>
     </View>
   );
 }
@@ -35,10 +31,5 @@ const styles = StyleSheet.create({
   },
   title: {
     marginLeft: Spacing.xs,
-  },
-  tilesWrapper: {
-    borderRadius: Radius.md,
-    borderCurve: 'continuous',
-    overflow: 'hidden',
   },
 });
