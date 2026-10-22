@@ -1,37 +1,63 @@
 import { type LatLng } from 'react-native-maps';
 
+import { supabase } from '@/lib/supabase';
+import { type Tables } from '@/types/database';
 import { type NearbyVenue, type Venue } from '@/types/venue';
-import { getDistanceMeters, offsetCoordinate } from '@/utils/geo';
 
-type MockVenue = Venue & {
-  // Where the venue sits relative to the user, so there is always something nearby to test.
-  offsetMeters: { north: number; east: number };
-};
+// The columns the app shows. The venues table and nearby_venues() both use these names.
+const VENUE_COLUMNS =
+  'id, name, description, categories, image_url, delivery_minutes_min, delivery_minutes_max, rating, is_open';
 
-const MOCK_VENUES: MockVenue[] = [
-  {
-    id: 'cafe-aalto',
-    name: 'Café Aalto',
-    description: 'Nordic coffee, flaky pastries and all-day favourites.',
-    categories: ['Coffee', 'Pastries', 'Breakfast'],
-    image: require('@/assets/images/onboarding/cafe-interior.jpg'),
-    offsetMeters: { north: 96, east: 72 },
-    deliveryMinutes: { min: 10, max: 15 },
-    rating: 4.8,
-    isOpen: true,
-  },
-];
+type VenueRow = Pick<
+  Tables<'venues'>,
+  | 'id'
+  | 'name'
+  | 'description'
+  | 'categories'
+  | 'image_url'
+  | 'delivery_minutes_min'
+  | 'delivery_minutes_max'
+  | 'rating'
+  | 'is_open'
+>;
 
-// Pretends to be the backend: returns the venues near `location`, closest first.
-// Replace the body with a database query later.
-export function getNearbyVenues(location: LatLng): NearbyVenue[] {
-  return MOCK_VENUES.map(({ offsetMeters, ...venue }) => {
-    const coordinate = offsetCoordinate(location, offsetMeters);
-    return { ...venue, coordinate, distanceMeters: getDistanceMeters(location, coordinate) };
-  }).sort((a, b) => a.distanceMeters - b.distanceMeters);
+// Turns a database row into the shape the app uses.
+function toVenue(row: VenueRow): Venue {
+  return {
+    id: row.id,
+    name: row.name,
+    description: row.description,
+    categories: row.categories,
+    image: row.image_url ? { uri: row.image_url } : undefined,
+    deliveryMinutes: { min: row.delivery_minutes_min, max: row.delivery_minutes_max },
+    rating: row.rating,
+    isOpen: row.is_open,
+  };
 }
 
-// Pretends to be the backend: returns one venue by its id.
-export function getVenue(id: string): Venue | undefined {
-  return MOCK_VENUES.find((venue) => venue.id === id);
+// Returns the venues near `location`, closest first. The database works out the distances.
+export async function getNearbyVenues(location: LatLng): Promise<NearbyVenue[]> {
+  const { data, error } = await supabase.rpc('nearby_venues', {
+    lat: location.latitude,
+    long: location.longitude,
+  });
+  if (error) throw error;
+
+  return data.map((row) => ({
+    ...toVenue(row),
+    coordinate: { latitude: row.latitude, longitude: row.longitude },
+    distanceMeters: row.distance_meters,
+  }));
+}
+
+// Returns one venue by its id, or null if there is no such venue.
+export async function getVenue(id: string): Promise<Venue | null> {
+  const { data, error } = await supabase
+    .from('venues')
+    .select(VENUE_COLUMNS)
+    .eq('id', id)
+    .maybeSingle();
+  if (error) throw error;
+
+  return data ? toVenue(data) : null;
 }

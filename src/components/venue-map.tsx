@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
-import MapView, { Marker, type LatLng } from 'react-native-maps';
+import MapView, { type LatLng } from 'react-native-maps';
 
 import { MapPin } from '@/components/map-pin';
 import { VenueRow } from '@/components/venue-row';
@@ -47,13 +47,13 @@ export function VenueMap({ center, venues, onVenuePress }: VenueMapProps) {
         showsPointsOfInterests={false}
       >
         {venues.map((venue) => (
-          <Marker
+          <MapPin
             key={venue.id}
             coordinate={venue.coordinate}
+            label={venue.name}
+            selected={venue.id === selectedVenue?.id}
             onPress={() => setSelectedId(venue.id)}
-          >
-            <MapPin label={venue.name} selected={venue.id === selectedVenue?.id} />
-          </Marker>
+          />
         ))}
       </MapView>
 

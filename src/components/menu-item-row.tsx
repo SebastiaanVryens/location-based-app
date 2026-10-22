@@ -1,11 +1,9 @@
-import { Image } from 'expo-image';
 import { StyleSheet, View } from 'react-native';
 
-import { Icon, Icons } from '@/components/icon';
+import { Photo } from '@/components/photo';
 import { QuantityStepper } from '@/components/quantity-stepper';
 import { ThemedText } from '@/components/themed-text';
 import { Radius, Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
 import { type MenuItem } from '@/types/menu';
 import { formatPrice } from '@/utils/format';
 
@@ -25,18 +23,12 @@ export function MenuItemRow({
   onRemove,
   compact = false,
 }: MenuItemRowProps) {
-  const theme = useTheme();
-  const imageStyle = [styles.image, compact ? styles.imageCompact : styles.imageLarge];
-
   return (
     <View style={styles.row}>
-      {item.image ? (
-        <Image source={item.image} contentFit="cover" style={imageStyle} />
-      ) : (
-        <View style={[imageStyle, styles.placeholder, { backgroundColor: theme.surfaceMuted }]}>
-          <Icon name={Icons.food} color="textTertiary" />
-        </View>
-      )}
+      <Photo
+        source={item.image}
+        style={[styles.image, compact ? styles.imageCompact : styles.imageLarge]}
+      />
 
       <View style={styles.info}>
         <ThemedText type="itemTitle">{item.name}</ThemedText>
@@ -73,10 +65,6 @@ const styles = StyleSheet.create({
   imageCompact: {
     width: 56,
     height: 56,
-  },
-  placeholder: {
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   info: {
     flex: 1,

@@ -1,8 +1,8 @@
-import { Image } from 'expo-image';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { Icon, Icons, type IconName } from '@/components/icon';
 import { OpenStatus } from '@/components/open-status';
+import { Photo } from '@/components/photo';
 import { ThemedText } from '@/components/themed-text';
 import { Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -28,7 +28,7 @@ export function VenueCard({ venue, onPress }: VenueCardProps) {
       ]}
     >
       <View style={styles.imageWrapper}>
-        <Image source={venue.image} contentFit="cover" style={StyleSheet.absoluteFill} />
+        <Photo source={venue.image} style={StyleSheet.absoluteFill} />
         <View style={[styles.distance, { backgroundColor: theme.surface }]}>
           <Icon name={Icons.pin} size="sm" />
           <ThemedText type="label">{formatDistance(venue.distanceMeters)}</ThemedText>
@@ -45,7 +45,9 @@ export function VenueCard({ venue, onPress }: VenueCardProps) {
           <View style={styles.meta}>
             <OpenStatus isOpen={venue.isOpen} />
             <MetaItem icon={Icons.clock} label={formatDeliveryTime(venue.deliveryMinutes)} />
-            <MetaItem icon={Icons.star} label={venue.rating.toFixed(1)} />
+            {venue.rating !== null ? (
+              <MetaItem icon={Icons.star} label={venue.rating.toFixed(1)} />
+            ) : null}
           </View>
         </View>
 

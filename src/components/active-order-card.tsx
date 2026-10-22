@@ -1,8 +1,8 @@
-import { Image } from 'expo-image';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { Chip } from '@/components/chip';
 import { Icon, Icons } from '@/components/icon';
+import { Photo } from '@/components/photo';
 import { ThemedText } from '@/components/themed-text';
 import { Radius, Shadow, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -35,7 +35,7 @@ export function ActiveOrderCard({ order, onPress }: ActiveOrderCardProps) {
       </View>
 
       <View style={styles.venue}>
-        <Image source={order.venue.image} contentFit="cover" style={styles.thumbnail} />
+        <Photo source={order.venue.image} style={styles.thumbnail} />
         <View style={styles.venueText}>
           <ThemedText type="section" color="onInverse">
             {order.venue.name}
