@@ -8,10 +8,7 @@ import { Radius, Shadow, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 const PIN_SIZE = 32;
-// Room for the pin's tip and shadows, which Android would otherwise clip.
 const PADDING = Spacing.sm;
-// How far the tip is from the top of the marker. The pin is turned 45°,
-// so its square corner sticks out half a diagonal below the pin's center.
 const TIP_Y = PADDING + PIN_SIZE / 2 + (PIN_SIZE / 2) * Math.SQRT2;
 
 type MapPinProps = {
@@ -21,10 +18,6 @@ type MapPinProps = {
   onPress?: () => void;
 };
 
-// A map marker with a pin and a name label, whose tip stays on `coordinate` at every zoom level.
-// Maps attach a marker by a fixed point (Google Maps: bottom center, Apple Maps: the center),
-// but the tip is higher up, above the label. The label grows with the phone's text size,
-// so the marker is measured and its attach point moved to the tip.
 export function MapPin({ coordinate, label, selected = false, onPress }: MapPinProps) {
   const theme = useTheme();
   const [height, setHeight] = useState<number | null>(null);

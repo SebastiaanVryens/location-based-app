@@ -10,11 +10,11 @@ import { PriceSummary } from '@/components/price-summary';
 import { RadioOption } from '@/components/radio-option';
 import { RowCard } from '@/components/row-card';
 import { TextButton } from '@/components/text-button';
-import { TextField } from '@/components/text-field';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import { getPaymentMethodLabel, PAYMENT_METHODS } from '@/data/payment-methods';
+import { useAuth } from '@/state/auth-context';
 import { useCart } from '@/state/cart-context';
 import { useOrders } from '@/state/orders-context';
 import { useSettings } from '@/state/settings-context';
@@ -24,8 +24,7 @@ export default function CheckoutScreen() {
   const cart = useCart();
   const { placeOrder } = useOrders();
   const { settings } = useSettings();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const { session } = useAuth();
   // Starts on the default chosen in Profile, Payment methods.
   const [paymentMethod, setPaymentMethod] = useState(settings.defaultPaymentMethod);
   const venue = cart.venue;
@@ -49,12 +48,7 @@ export default function CheckoutScreen() {
 
   return (
     <ThemedView style={styles.screen}>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        automaticallyAdjustKeyboardInsets
-        keyboardDismissMode="on-drag"
-        contentContainerStyle={styles.content}
-      >
+      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={styles.content}>
         <RowCard
           image={cart.spot.photoUri ?? venue.image}
           accessory={<Icon name={Icons.check} color="primary" />}
@@ -69,33 +63,6 @@ export default function CheckoutScreen() {
             Photo added ✓
           </ThemedText>
         </RowCard>
-
-        <View style={styles.section}>
-          <View style={styles.sectionTitle}>
-            <ThemedText type="section">Your details</ThemedText>
-            <ThemedText type="caption" color="textTertiary">
-              Optional
-            </ThemedText>
-          </View>
-          <TextField
-            label="Name"
-            placeholder="Your name"
-            autoComplete="name"
-            textContentType="name"
-            value={name}
-            onChangeText={setName}
-          />
-          <TextField
-            label="Receipt email"
-            placeholder="you@example.com"
-            autoCapitalize="none"
-            autoComplete="email"
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            value={email}
-            onChangeText={setEmail}
-          />
-        </View>
 
         <View style={styles.section}>
           <ThemedText type="section">Payment method</ThemedText>
@@ -122,14 +89,18 @@ export default function CheckoutScreen() {
       </ScrollView>
 
       <BottomBar>
-        <Button
-          label={
-            paymentMethod === 'wallet'
-              ? `Pay ${total} with ${getPaymentMethodLabel('wallet')}`
-              : `Pay ${total}`
-          }
-          onPress={handlePay}
-        />
+        {session ? (
+          <Button
+            label={
+              paymentMethod === 'wallet'
+                ? `Pay ${total} with ${getPaymentMethodLabel('wallet')}`
+                : `Pay ${total}`
+            }
+            onPress={handlePay}
+          />
+        ) : (
+          <Button label="Sign in to pay" onPress={() => router.push('/sign-in')} />
+        )}
       </BottomBar>
     </ThemedView>
   );
@@ -145,11 +116,6 @@ const styles = StyleSheet.create({
   },
   section: {
     gap: Spacing.md,
-  },
-  sectionTitle: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   centered: {
     alignItems: 'center',

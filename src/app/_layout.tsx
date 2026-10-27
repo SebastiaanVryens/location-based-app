@@ -11,6 +11,7 @@ import { useColorScheme } from 'react-native';
 
 import { FontFamily } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { AuthProvider } from '@/state/auth-context';
 import { CartProvider } from '@/state/cart-context';
 import { OrdersProvider } from '@/state/orders-context';
 import { SettingsProvider } from '@/state/settings-context';
@@ -62,36 +63,42 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={navigationTheme}>
-      <SettingsProvider>
-        <OrdersProvider>
-          <CartProvider>
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="scan" options={{ presentation: 'fullScreenModal' }} />
-              <Stack.Screen name="spot-camera" options={{ presentation: 'fullScreenModal' }} />
-              <Stack.Screen name="cart" options={{ ...withHeader, title: 'Your cart' }} />
-              <Stack.Screen name="spot" options={{ ...withHeader, title: 'Confirm your spot' }} />
-              <Stack.Screen name="checkout" options={{ ...withHeader, title: 'Checkout' }} />
-              <Stack.Screen
-                name="settings/notifications"
-                options={{ ...withHeader, title: 'Notifications' }}
-              />
-              <Stack.Screen
-                name="settings/payment-methods"
-                options={{ ...withHeader, title: 'Payment methods' }}
-              />
-              <Stack.Screen
-                name="settings/language"
-                options={{ ...withHeader, title: 'Language' }}
-              />
-              <Stack.Screen
-                name="settings/help"
-                options={{ ...withHeader, title: 'Help & support' }}
-              />
-              <Stack.Screen name="settings/privacy" options={{ ...withHeader, title: 'Privacy' }} />
-            </Stack>
-          </CartProvider>
-        </OrdersProvider>
-      </SettingsProvider>
+      <AuthProvider>
+        <SettingsProvider>
+          <OrdersProvider>
+            <CartProvider>
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="scan" options={{ presentation: 'fullScreenModal' }} />
+                <Stack.Screen name="spot-camera" options={{ presentation: 'fullScreenModal' }} />
+                <Stack.Screen name="cart" options={{ ...withHeader, title: 'Your cart' }} />
+                <Stack.Screen name="spot" options={{ ...withHeader, title: 'Confirm your spot' }} />
+                <Stack.Screen name="checkout" options={{ ...withHeader, title: 'Checkout' }} />
+                <Stack.Screen name="sign-in" options={{ ...withHeader, title: 'Sign in' }} />
+                <Stack.Screen
+                  name="settings/notifications"
+                  options={{ ...withHeader, title: 'Notifications' }}
+                />
+                <Stack.Screen
+                  name="settings/payment-methods"
+                  options={{ ...withHeader, title: 'Payment methods' }}
+                />
+                <Stack.Screen
+                  name="settings/language"
+                  options={{ ...withHeader, title: 'Language' }}
+                />
+                <Stack.Screen
+                  name="settings/help"
+                  options={{ ...withHeader, title: 'Help & support' }}
+                />
+                <Stack.Screen
+                  name="settings/privacy"
+                  options={{ ...withHeader, title: 'Privacy' }}
+                />
+              </Stack>
+            </CartProvider>
+          </OrdersProvider>
+        </SettingsProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

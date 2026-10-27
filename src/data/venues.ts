@@ -4,7 +4,6 @@ import { supabase } from '@/lib/supabase';
 import { type Tables } from '@/types/database';
 import { type NearbyVenue, type Venue } from '@/types/venue';
 
-// The columns the app shows. The venues table and nearby_venues() both use these names.
 const VENUE_COLUMNS =
   'id, name, description, categories, image_url, delivery_minutes_min, delivery_minutes_max, rating, is_open';
 
@@ -21,7 +20,6 @@ type VenueRow = Pick<
   | 'is_open'
 >;
 
-// Turns a database row into the shape the app uses.
 function toVenue(row: VenueRow): Venue {
   return {
     id: row.id,
@@ -35,7 +33,6 @@ function toVenue(row: VenueRow): Venue {
   };
 }
 
-// Returns the venues near `location`, closest first. The database works out the distances.
 export async function getNearbyVenues(location: LatLng): Promise<NearbyVenue[]> {
   const { data, error } = await supabase.rpc('nearby_venues', {
     lat: location.latitude,
@@ -50,7 +47,6 @@ export async function getNearbyVenues(location: LatLng): Promise<NearbyVenue[]> 
   }));
 }
 
-// Returns one venue by its id, or null if there is no such venue.
 export async function getVenue(id: string): Promise<Venue | null> {
   const { data, error } = await supabase
     .from('venues')

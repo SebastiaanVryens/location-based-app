@@ -3,14 +3,16 @@ import * as Location from 'expo-location';
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
+import { AccountCard } from '@/components/account-card';
 import { Icons } from '@/components/icon';
 import { ScreenHeader } from '@/components/screen-header';
 import { ScreenScrollView } from '@/components/screen-scroll-view';
 import { SettingsTileSection } from '@/components/settings-tile-section';
-import { SignInCard } from '@/components/sign-in-card';
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
+import { signOut } from '@/data/auth';
 import { useOnForeground } from '@/hooks/use-on-foreground';
+import { useAuth } from '@/state/auth-context';
 import { useSettings, type Settings } from '@/state/settings-context';
 import { changePermission, describePermission } from '@/utils/permissions';
 
@@ -25,6 +27,7 @@ function describeNotifications({ orderUpdates, offers }: Settings) {
 
 export default function Profile() {
   const { settings } = useSettings();
+  const { session, account } = useAuth();
   const [locationPermission, requestLocation, refreshLocation] =
     Location.useForegroundPermissions();
   // The user may change the permission in the Settings app, so check again when they return.
@@ -34,8 +37,14 @@ export default function Profile() {
     <ScreenScrollView contentContainerStyle={styles.content}>
       <ScreenHeader overline="Your account" title="Profile" />
 
-      {/* "Sign in" is not working yet: it needs accounts from the backend. */}
-      <SignInCard />
+      {/* Hidden for a moment at startup, while the saved sign-in is read. */}
+      {session !== undefined ? (
+        <AccountCard
+          account={account}
+          onSignIn={() => router.push('/sign-in')}
+          onSignOut={signOut}
+        />
+      ) : null}
 
       <View style={styles.sections}>
         <SettingsTileSection

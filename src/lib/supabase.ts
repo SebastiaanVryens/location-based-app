@@ -6,7 +6,6 @@ import { AppState } from 'react-native';
 // Generated from the database with `npm run types:db`. Run it again after every migration.
 import { type Database } from '@/types/database';
 
-// Both values are safe to put in the app. Never put the database password or a secret key here.
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
 const supabasePublishableKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 

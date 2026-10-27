@@ -12,7 +12,6 @@ type MenuItemRowProps = {
   quantity: number;
   onAdd: () => void;
   onRemove: () => void;
-  // Smaller photo and no description, for the cart.
   compact?: boolean;
 };
 

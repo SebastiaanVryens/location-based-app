@@ -71,7 +71,7 @@ Colors come in **pairs**: a **background** and the text color meant to go **on**
 | `onPrimarySecondary` | `primary`                              | secondary text on green cards ("Order straight to your table or seat")                 |
 | `primary`            | `background`, `surface`, `primarySoft` | **green text or icons**: overlines, links, the "Nearby" chip text, icons in icon tiles |
 | `onInverse`          | `surfaceInverse`                       | main text on dark cards ("Welcome")                                                    |
-| `onInverseSecondary` | `surfaceInverse`                       | secondary text on dark cards ("Sign in to save…")                                      |
+| `onInverseSecondary` | `surfaceInverse`                       | secondary text on dark cards ("Sign in to order…")                                     |
 | `onAccent`           | `accentCream`                          | the avatar letter "A"                                                                  |
 
 ### Other
@@ -79,15 +79,12 @@ Colors come in **pairs**: a **background** and the text color meant to go **on**
 | Color     | Role                      | Examples                                                                  |
 | --------- | ------------------------- | ------------------------------------------------------------------------- |
 | `success` | **positive status**       | the green dot before "Open", later "Delivered"                            |
+| `danger`  | **errors**                | "Wrong email or password." on the sign-in screen                          |
 | `border`  | **dividers and outlines** | hairlines between rows, the outline around the +/− stepper, input borders |
 
 ### The pairing rule
 
 The pairs protect contrast, especially in dark mode. Putting `text` on `primary` works in light mode, but in dark mode light text lands on bright green and becomes hard to read. `onPrimary` is defined to work in both modes. So when you pick a background, take the text color from its pair.
-
-### Not in the theme yet
-
-A red **`danger` / `error`** color for validation errors ("Please enter an email") and destructive actions. The current designs don't show one, so add it when the first screen needs it, both in `light` and `dark`.
 
 ## Shadows
 

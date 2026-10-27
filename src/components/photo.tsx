@@ -6,11 +6,9 @@ import { useTheme } from '@/hooks/use-theme';
 
 type PhotoProps = {
   source?: ImageProps['source'];
-  // Sets the size and corners, for the photo and the placeholder alike.
   style?: StyleProp<ViewStyle>;
 };
 
-// A venue or menu photo. Venues can skip photos, so without one it shows a quiet placeholder.
 export function Photo({ source, style }: PhotoProps) {
   const theme = useTheme();
 

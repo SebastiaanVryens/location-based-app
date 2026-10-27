@@ -1,7 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import { type MenuItem } from '@/types/menu';
 
-// Returns a venue's menu, grouped by category. Each venue edits its own items in the database.
 export async function getMenu(venueId: string): Promise<MenuItem[]> {
   const { data, error } = await supabase
     .from('menu_items')

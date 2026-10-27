@@ -1,6 +1,5 @@
 import { type Order } from '@/types/order';
 
-// A fake earlier order, so the "Earlier" list has something to show.
 export const MOCK_PAST_ORDERS: Order[] = [
   {
     id: 'order-4021',

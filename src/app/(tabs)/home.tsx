@@ -19,6 +19,7 @@ import { getNearbyVenues } from '@/data/venues';
 import { useCurrentLocation } from '@/hooks/use-current-location';
 import { useLoad } from '@/hooks/use-load';
 import { useTheme } from '@/hooks/use-theme';
+import { useAuth } from '@/state/auth-context';
 import { type Venue } from '@/types/venue';
 
 const VIEW_OPTIONS = [
@@ -42,6 +43,7 @@ export default function HomeScreen() {
   const theme = useTheme();
   const [nearbyView, setNearbyView] = useState<NearbyView>('list');
   const [query, setQuery] = useState('');
+  const { account } = useAuth();
   const { location } = useCurrentLocation();
   // Waits for the location, then asks the backend for the venues around it.
   const nearby = useLoad(getNearbyVenues, location);
@@ -57,7 +59,9 @@ export default function HomeScreen() {
       <ScreenHeader
         overline={getGreeting()}
         title="What can we bring you?"
-        accessory={<Avatar name="A" onPress={() => router.navigate('/profile')} />}
+        accessory={
+          <Avatar name={account?.name ?? 'A'} onPress={() => router.navigate('/profile')} />
+        }
       />
 
       <ActionCard

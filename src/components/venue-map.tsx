@@ -8,12 +8,9 @@ import { Radius, Shadow, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { type NearbyVenue } from '@/types/venue';
 
-// How much of the map is visible, in degrees. Smaller is more zoomed in.
 const ZOOM_DELTA = 0.005;
-// The map takes this share of the screen height, so it fits above the tab bar on any phone.
 const HEIGHT_RATIO = 0.35;
 const MIN_HEIGHT = 240;
-// Room for the venue card at the bottom, so the map centers your location above it.
 const CARD_SPACE = 80;
 
 type VenueMapProps = {
